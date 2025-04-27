@@ -22,3 +22,9 @@ function keyPressed() {
 function keyReleased() {
     game.handleKeyRelease();
 }
+
+function mousePressed() {
+  const gridX = Math.floor(mouseX / game.tileSize);
+  const gridY = Math.floor(mouseY / game.tileSize);
+  game.setNPCTarget(gridX, gridY); // Set NPC target on click
+}

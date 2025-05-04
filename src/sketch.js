@@ -20,7 +20,7 @@ function keyPressed() {
 }
 
 function keyReleased() {
-    game.handleKeyRelease();
+  game.handleKeyRelease();
 }
 
 function mousePressed() {

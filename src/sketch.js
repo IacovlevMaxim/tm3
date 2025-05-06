@@ -16,6 +16,12 @@ function draw() {
 }
 
 function keyPressed() {
+  // Check for map keyboard shortcuts first
+  if (game.handleKeyboardShortcuts(key)) {
+    return false; // Prevent default if handled
+  }
+  
+  // Otherwise handle normal input
   game.handleInput();
 }
 
@@ -24,7 +30,22 @@ function keyReleased() {
 }
 
 function mousePressed() {
+  // Check if the map handles the mouse press first
+  if (game.handleMousePressed()) {
+    return false; // Prevent default if handled
+  }
+  
+  // Otherwise use standard click behavior
   const gridX = Math.floor(mouseX / game.tileSize);
   const gridY = Math.floor(mouseY / game.tileSize);
   game.setNPCTarget(gridX, gridY); // Set NPC target on click
+}
+
+function mouseMoved() {
+  game.handleMouseMoved();
+}
+
+// Add window resize handler to ensure UI elements stay in correct positions
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }

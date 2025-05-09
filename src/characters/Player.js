@@ -13,6 +13,7 @@ class Player {
         this.direction = { x: 0, y: 0 };
         this.lastNonZeroDirection = { x: 0, y: 1 }
         this.facing = { x: 0, y: 1 }; // Default facing down
+        this.characterFrames = [loadImage('assets/character.png'), loadImage('assets/character2.png')];
 
         // Inventory system
         this.inventory = [];
@@ -23,6 +24,7 @@ class Player {
         this.interactionCooldown = 0;
         this.cooldownDuration = 15; // Frames
     }
+ 
 
     setup() {
         this.x = 0;
@@ -225,21 +227,34 @@ class Player {
     }
 
     draw() {
-        // Draw player facing direction
-        if (this.facing.x !== 0 || this.facing.y !== 0) {
-            // Add visual indicator for facing direction
-            fill(255, 0, 0);
-            triangle(
-                this.x + this.tileSize / 2, this.y + this.tileSize / 2,
-                this.x + this.tileSize / 2 + this.facing.x * 20, this.y + this.tileSize / 2 + this.facing.y * 20,
-                this.x + this.tileSize / 2 + this.facing.y * 10, this.y + this.tileSize / 2 - this.facing.x * 10
-            );
+        // Select the appropriate character image based on movement direction
+        let characterImage;
+    
+        if (this.direction.x < 0) {
+            // Flip image horizontally when moving left
+            characterImage = this.characterFrames[0];
+        } else if (this.direction.y !== 0) {
+            // Use the second image for vertical movement (up or down)
+            characterImage = this.characterFrames[1];
+        } else {
+            // Default to index 0 if moving right or no movement
+            characterImage = this.characterFrames[0];
         }
-        fill(0);
-        rect(this.x, this.y, this.tileSize, this.tileSize);
-
-        // Draw inventory after camera reset (in the Game.draw method)
+    
+        // Draw the player character, flipping the image if moving left
+        if (this.direction.x < 0) {
+            // Flip horizontally by drawing a mirrored image
+            push();
+            translate(this.x + this.tileSize, this.y);  // Move to the right edge of the character
+            scale(-1, 1);  // Flip the image horizontally
+            image(characterImage, 0, 0, this.tileSize, this.tileSize);  // Draw the flipped image
+            pop();
+        } else {
+            // No flip needed for right or vertical movement
+            image(characterImage, this.x, this.y, this.tileSize, this.tileSize);
+        }
     }
+    
 
     drawInventory() {
         // Reset transformation to draw on screen coordinates

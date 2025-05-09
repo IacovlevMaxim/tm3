@@ -11,9 +11,13 @@ function setup() {
 }
 
 function draw() {
-  game.draw();
+  background(0); // Clear the background
   game.update();
+  game.draw();
+  fill(255);
+  text("FPS: " + Math.round(frameRate()), 20, 20);
 }
+
 
 function keyPressed() {
   // Check for map keyboard shortcuts first

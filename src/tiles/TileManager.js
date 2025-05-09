@@ -58,15 +58,6 @@ class TileManager {
 
     image(this.images[imgIndex], sx, sy, this.tileSize, this.tileSize);
 
-    // Добавление кустов на траве по шуму
-    if (type === 'grass') {
-      const bushNoise = noise((tileX + 100) * this.noiseScale, (tileY + 100) * this.noiseScale);
-      if (bushNoise > 0.55 && bushNoise < 0.60) {
-        fill(0);
-        textAlign(CENTER, BOTTOM);
-        textSize(12); 
-        text("b", sx + this.tileSize / 2, sy);
-      }
-    }
+   
   }
 }

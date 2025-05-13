@@ -6,6 +6,11 @@ class Game {
     this.itemManager = null;
     this.npcs = []; // Array to hold multiple NPCs
     this.pathfinderMap = null; // Pathfinder map visualization
+    this.px = 0; // Placeholder for rocket x position
+    this.py = 0; // Placeholder for rocket y position
+
+    this.rocketImage = null; // Placeholder for rocket image
+
   
     // Track explored chunks for item generation
     this.exploredChunks = new Set();
@@ -28,6 +33,8 @@ preload() {
   this.tileManager.preload();
   this.itemManager = new ItemManager(this.tileSize);
   this.player = new Player(this.tileSize, this.tileManager, this.itemManager);
+  this.rocketImage = loadImage("assets/rocket.png");
+
   
   // Create a dog NPC
   const dogNPC = new NPC(this.tileSize, this.tileManager, this.player);
@@ -52,7 +59,8 @@ setup() {
   
   // Setup the pathfinder map with player reference
   this.pathfinderMap.setup(this.player);
-  
+
+
   // Generate items for the initial visible area
   this.updateVisibleArea();
 }
@@ -330,6 +338,8 @@ update() {
 draw() {
   background(135, 50, 90);
   this.player.update();
+
+
   
   push();
   this.player.applyCameraTransform();
@@ -341,6 +351,7 @@ draw() {
     npc.draw();
   }
   
+  image(this.rocketImage, this.pathfinderMap.startPos.x, this.pathfinderMap.startPos.y, this.tileSize, this.tileSize);
   this.player.draw();
   pop();
 
